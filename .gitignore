@@ -1,0 +1,10 @@
+*.spv
+*.exe
+*.swp
+*.zip
+*.msix
+*.appx
+.DS_Store
+freecell
+deploy/deploy
+deploy/builds
