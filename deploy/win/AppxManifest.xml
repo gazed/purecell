@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Package Manifest
+Needed to deploy and update a windows store application.
+-->
+<Package
+	xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+	xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+	xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+	xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10"
+	xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+	IgnorableNamespaces="rescap desktop6 virtualization">
+
+	<Identity
+		Name="42669505.PureFreecell"
+		Version="1.2.0.0"
+		Publisher="CN=22E5912B-DE6F-4286-80D2-92B15B4BDDC6"
+		ProcessorArchitecture="x64" />
+	<Properties>
+		<DisplayName>Pure Freecell</DisplayName>
+		<PublisherDisplayName>Galvanized Logic Inc.</PublisherDisplayName>
+		<Logo>gl50x50.png</Logo>
+		<desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+
+		<!-- app writes to AppData/Local/purefreecell -->
+        <virtualization:FileSystemWriteVirtualization>
+			<virtualization:ExcludedDirectories>
+				<virtualization:ExcludedDirectory>$(KnownFolder:LocalAppData)\floworlds</virtualization:ExcludedDirectory>
+			</virtualization:ExcludedDirectories>
+        </virtualization:FileSystemWriteVirtualization>
+
+		<!-- app does not use registry keys -->
+		<virtualization:RegistryWriteVirtualization>
+			<virtualization:ExcludedKeys>
+			</virtualization:ExcludedKeys>
+		</virtualization:RegistryWriteVirtualization>
+	</Properties>
+	<Resources>
+		<Resource Language="en-us" />
+	</Resources>
+	<Dependencies>
+		<TargetDeviceFamily
+			Name="Windows.Desktop"
+			MinVersion="10.0.19045.0"
+			MaxVersionTested="10.0.26100.0" />
+	</Dependencies>
+	<Capabilities>
+		<rescap:Capability Name="runFullTrust"/>
+		<rescap:Capability Name="unvirtualizedResources"/>
+	</Capabilities>
+	<Applications>
+		<Application
+			Id="PureFreecell"
+			Executable="PureFreecell.exe"
+			EntryPoint="Windows.FullTrustApplication" >
+			<uap:VisualElements
+				BackgroundColor="#000000"
+				DisplayName="Pure Freecell"
+				Description="The Freecell essentials"
+				Square150x150Logo="logo150x150.png"
+                Square44x44Logo="logo44x44.png">
+                <uap:DefaultTile
+                    Wide310x150Logo="logo310x150.png"
+                    Square310x310Logo="logo310x310.png">
+                </uap:DefaultTile>
+            </uap:VisualElements>
+		</Application>
+	</Applications>
+</Package>
