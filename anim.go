@@ -139,7 +139,7 @@ func animateCardMoves(gm *game, from [52]uint) Animation {
 
 // a very subdued "tada!" animation when the game is won.
 func animateGameComplete(gm *game) Animation {
-	a := &animation{elapsed: 0, duration: 5000 * time.Millisecond}
+	a := &animation{elapsed: 0, duration: 2800 * time.Millisecond}
 	r, g, b := gameColor(gm.save.Seed)
 
 	// fade between regular background and end game background.

@@ -15,7 +15,7 @@ var (
 	app             = "PureFreecell"    // Application name.
 	appPkg          = app + ".pkg"      // App package name.
 	appApp          = app + ".app"      // App app name.
-	appVer          = "1.2.0"           // App version - also in Info.plist
+	appVer          = "1.3.0"           // App version - also in Info.plist
 	dirMode         = os.FileMode(0755) // default directory permissions.
 	IOSMinVersion   = "16.0"            // iOS 16 released 2022
 	MACOSMinVersion = "14.0"            // macOS14 "Sonoma" released 2023

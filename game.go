@@ -329,8 +329,12 @@ func (gm *game) Update(eng *vu.Engine, in *vu.Input, delta time.Duration) {
 			eng.ToggleFullscreen()
 			gm.save.Full = !gm.save.Full
 			gm.save.persistFullScreen(gm.save.Full)
-
-		case vu.KT: // play the end game effect.
+		case vu.KARight:
+			gm.nextGame()
+		case vu.KALeft:
+			gm.prevGame()
+		case vu.KT:
+			// play the end game effect.
 			gm.anim = animateGameComplete(gm)
 		}
 	}
@@ -522,18 +526,10 @@ func (gm *game) handleButtonClick(mx, my int) {
 
 		// find which button was clicked.
 		switch name {
-		case "prev":
-			if gm.save.Seed > 0 {
-				gm.save.Seed = gm.save.Seed - 1
-				gm.save.persistSeed(gm.save.Seed)
-				gm.resetBoard()
-			}
 		case "next":
-			if gm.save.Seed < MAX_SEED {
-				gm.save.Seed = gm.save.Seed + 1
-				gm.save.persistSeed(gm.save.Seed)
-				gm.resetBoard()
-			}
+			gm.nextGame()
+		case "prev":
+			gm.prevGame()
 		case "seed":
 			if numberpadExists {
 				gm.state = SelectState
@@ -545,6 +541,24 @@ func (gm *game) handleButtonClick(mx, my int) {
 			}
 		}
 		break // done since buttons don't overlap.
+	}
+}
+
+// advance the game seed and reset board.
+func (gm *game) nextGame() {
+	if gm.save.Seed < MAX_SEED {
+		gm.save.Seed = gm.save.Seed + 1
+		gm.save.persistSeed(gm.save.Seed)
+		gm.resetBoard()
+	}
+}
+
+// reduce the game seed and reset board.
+func (gm *game) prevGame() {
+	if gm.save.Seed > 0 {
+		gm.save.Seed = gm.save.Seed - 1
+		gm.save.persistSeed(gm.save.Seed)
+		gm.resetBoard()
 	}
 }
 

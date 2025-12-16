@@ -18,9 +18,8 @@ float iTime;      // in seconds
 vec2 iResolution; // screen resolution in pixels
 
 // constants for the end game tada effect.
-const float count = 75.0;   // higher loop for more rings.
-const float bright = 0.012; // ring brightness.
-const float radius = 0.07;  // size of the tada rings.
+const float bright = 0.001; // ring brightness.
+const float radius = 0.068; // size of the tada rings.
 
 void main() {
     iResolution = vec2(mu.args4.xy);
@@ -44,7 +43,7 @@ void main() {
 
     // skew the swirl towards the given color and lighten it up a bit.
     float squash = 0.33;             // scale down sin/cos range from -1:1.
-    float lighten = 0.4 + seed*0.25; // lighten up the colors.
+    float lighten = 0.7 + seed*0.25; // lighten up the colors.
     float r=cos(sin(p.x) - sin(p.y)+seedX*2.0)*squash+lighten;
     float g=sin(cos(p.x) + cos(p.y)-seedX*2.0)*squash+lighten;
     float b=(sin(cos(p.x) * cos(p.y)+seedX*2.0) - cos(sin(p.x) * sin(p.y) + seedX*2.0))*squash+lighten;
@@ -58,21 +57,23 @@ void main() {
     fragColor = mix(swirl, dark, sin(d*2.4));
 
     // add the end game tada effect when alpa is less than 1.0.
-    // These are a group of rings that move according to an axis.
+    // These are a group of rings that move according to an axis based on game seed.
     if (c1.w < 0.999) {
+        float rings = 78.0; // higher for more rings.
 
-        // convert seed into a 2D axis
-        float index = seed*10000.0;
-        vec2 axis = vec2(index / 100.0, mod(index,100.0));
+        // convert seed from a 0:1 range into a 2D axis
+        vec2 axis = vec2(160.0*seed, 160.0*seed+(seed*seed));
 
-        // create the moving rings.
+        // create the moving rings by combining cos/sin as a vec2.
+        // This is a unit circle when x==y and a complex closed curve when x!=y.
+        // See: Lissajous curve on wikipedia.
         float ring = -0.3;
         vec2 centr = 1.6 * (fragCoord.xy * 2.0 - iResolution) / min(iResolution.x, iResolution.y);
         centr.y -= 0.28; // lower to fit the empty space in a winning board.
-        for (float cnt = 0.0; cnt < count; cnt++) {
-            float si = sin(iTime + cnt * 0.5 * axis.x );
-            float co = cos(iTime + cnt * 0.5 * axis.y );
-            ring += bright / abs(length(centr + vec2(si , co )) - radius);
+        for (float cnt = 0.0; cnt < rings; cnt++) {
+            float si = sin(iTime + cnt * 0.5 * axis.x);
+            float co = cos(iTime + cnt * 0.5 * axis.y);
+            ring += bright / abs(length(centr + vec2(si, co)) - radius);
         }
         vec4 tada = vec4(vec3(fragColor.xyz) * ring, 1.0);
 

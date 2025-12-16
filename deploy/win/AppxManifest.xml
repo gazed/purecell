@@ -13,7 +13,7 @@ Needed to deploy and update a windows store application.
 
 	<Identity
 		Name="42669505.PureFreecell"
-		Version="1.2.0.0"
+		Version="1.3.0.0"
 		Publisher="CN=22E5912B-DE6F-4286-80D2-92B15B4BDDC6"
 		ProcessorArchitecture="x64" />
 	<Properties>
