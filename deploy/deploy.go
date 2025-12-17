@@ -351,7 +351,7 @@ func packageWINDOWS() {
 	// generate the windows syso file using https://github.com/akavel/rsrc
 	// The output win_amd64.syso must be in the build directory
 	// and is included automatically in the binary by "go build"
-	icon := "icon/freecellIcon512.ico"
+	icon := "icon/freecellIcon1024.ico"
 	runCmd("rsrc", "-arch", "amd64", "-ico", icon, "-manifest", "win/win_manifest.xml")
 	runCmd("mv", "rsrc_windows_amd64.syso", "../win_amd64.syso")
 
